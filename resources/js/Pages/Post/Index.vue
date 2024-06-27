@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, Link } from '@inertiajs/vue3';
 import Items from './Items.vue';
 
 defineProps({
@@ -10,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Profile" />
+    <Head title="Post" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -21,18 +22,8 @@ defineProps({
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <Items
-                        :must-verify-email="mustVerifyEmail"
-                        :status="status"
-                        class="max-w-xl"
+                        :posts="posts"
                     />
-                </div>
-
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdatePasswordForm class="max-w-xl" />
-                </div>
-
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <DeleteUserForm class="max-w-xl" />
                 </div>
             </div>
         </div>

@@ -12,10 +12,12 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         return Inertia::render('Post/Index', [
-            'posts' => \Auth::user()->posts()
+            'posts' => Post::leftJoin('users', 'users.id', 'posts.user_id')
+                ->select(['posts.*', 'name'])
+                ->get()
         ]);
     }
 
@@ -48,11 +50,29 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return Inertia::render('Post/Form', [
+            'post' => $post
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function save(Request $request)
+    {
+        $post = $request->id ? Post::find($request->id) : new Post();
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->user_id = \Auth::id();
+        $post->save();
+        return to_route('posts');
+        //return \Redirect::route('posts');
     }
 
     /**
      * Update the specified resource in storage.
+     * @param Request $request
+     * @param Post $post
      */
     public function update(Request $request, Post $post)
     {
